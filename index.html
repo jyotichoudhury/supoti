@@ -33,7 +33,7 @@
        Answer
     </div>
    
-    <video width="100%" autoplay="true" style="margin-top: 5%;display: block" id="video"></video>
+    <!--<video width="100%" autoplay="true" style="margin-top: 5%;display: block" id="video"></video>-->
 </body>
 <script>
     //document.addEventListener('DOMContentLoaded',()=>{
@@ -90,6 +90,8 @@
             }
         
             call.on('stream', (stream)=>{
+            var video = document.createElement('video');
+            document.body.appendChild(video);
             video.srcObject = stream;
             console.log("call.on");
             video.play();
@@ -130,7 +132,10 @@ btnCallPr.onclick = function mediacall(){
                     call.on('stream', (stream)=>{
                     console.log("call on fired on index2")
                     myStatus.innerHTML = "Connected!";
+                    var video = document.createElement('video');
+                    document.body.appendChild(video);
                     video.srcObject = stream;
+                    video.play();
                     });
 
                     btnHangUp.onclick = ()=>{call.close()}
