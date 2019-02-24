@@ -12,14 +12,14 @@
     <h3>ভিডিও সংস্কৰণ</h3>
 
     <button id="playvid" style="font-size: 120%;display: none">Play</button>
-    
+
     <input  id="peerid" style="font-size: 120%" placeholder="Call another id" size="10%" type="text">
     <button id="btnCallPeer" style="font-size: 120%;margin-left: 1%;margin-bottom: 10%">Call</button>
     <button id="btnHangUpPeer" style="font-size: 120%;margin-left: 1%;margin-bottom: 10%">Hang up</button>
     <button id="btnEndSession" style="font-size: 120%;margin-left: 1%;margin-bottom: 10%">End your session</button>
-    
+
     <table  style="font-size: 120%;width: 30%;margin-right: 5%;margin-bottom: 5%;float:right" class="control">
-            
+
         <tr>
             <td class="title">My id</td>
             <td id="myId" class="title"></td>
@@ -32,14 +32,19 @@
     <div style="background:orange; width: 40%;text-align: center; margin: 100px auto;padding: 4% 4%;font-size: 140%;display: none" id="btnAnswer">
        Answer
     </div>
-   
+
     <!--<video width="100%" autoplay="true" style="margin-top: 5%;display: block" id="video"></video>-->
 </body>
 <script>
     //document.addEventListener('DOMContentLoaded',()=>{
     //var video = document.createElement('video');
     //document.body.appendChild(video);
-    var peer        = new Peer(null, {debug:2}); 
+    var peer        = new Peer(null, {debug:3,
+                      config:{'iceServers':[
+                        {url:'stun:stun.l.google.com:19302'},
+                        {url:'turn:numb.viagenie.ca', credential:'muazkh', username:'webrtc@live.com'}
+                      ]}
+                    }); 
     var btnCallPr   = document.getElementById("btnCallPeer");
     var myId        = document.getElementById("myId");
     var myStatus    = document.getElementById("myStatus");
@@ -52,7 +57,7 @@
         myId.innerHTML      = id;
         myStatus.innerHTML  = "Ready"
     });
-    
+
     //receive
     peer.on('connection', function(conn) {
         conn.on('data', function(data) {
@@ -68,9 +73,9 @@
         console.log("call is on");
         myStatus.innerHTML = "Incoming call from"+ call.peer;
         btnAns.style.display = "block";
-        
+
         btnAns.onclick = ()=>{
-            
+
             btnAns.style.display = "none";
             if(navigator.getUserMedia){
 
@@ -88,7 +93,7 @@
                             myStatus.innerHTML = err;}
                 )
             }
-        
+
             call.on('stream', (stream)=>{
             var video = document.createElement('video');
             document.body.appendChild(video);
@@ -96,7 +101,7 @@
             console.log("call.on");
             video.play();
             });
-        
+
         }
 
         btnHangUp.onclick = ()=>{call.close()}
@@ -114,7 +119,7 @@ document.getElementById('playvid').addEventListener('click',()=>{
 });
 
 btnCallPr.onclick = function mediacall(){
-        var othId = document.getElementById("peerid").value;        
+        var othId = document.getElementById("peerid").value;
         if(navigator.getUserMedia){
             navigator.getUserMedia(
                 {
