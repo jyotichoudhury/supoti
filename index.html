@@ -77,9 +77,12 @@
         btnAns.onclick = ()=>{
 
             btnAns.style.display = "none";
-            if(navigator.getUserMedia){
 
-                navigator.getUserMedia(
+            var userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia).bind(navigator);
+
+            if(userMedia){
+
+                userMedia(
                     {
                         video:true,
                         audio:false
@@ -96,6 +99,7 @@
 
             call.on('stream', (stream)=>{
             var video = document.createElement('video');
+            video.style.display = "block"
             document.body.appendChild(video);
             video.srcObject = stream;
             console.log("call.on");
