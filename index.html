@@ -124,8 +124,9 @@ document.getElementById('playvid').addEventListener('click',()=>{
 
 btnCallPr.onclick = function mediacall(){
         var othId = document.getElementById("peerid").value;
-        if(navigator.getUserMedia){
-            navigator.getUserMedia(
+        var userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia).bind(navigator);
+        if(userMedia){
+            userMedia(
                 {
                     video:true,
                     audio:false
