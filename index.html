@@ -78,11 +78,11 @@
 
             btnAns.style.display = "none";
 
-            //var userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+            userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
 
-            if(navigator.getUserMedia){
+            if(userMedia){
 
-                navigator.getUserMedia(
+                userMedia.call(navigator,
                     {
                         video:true,
                         audio:false
@@ -124,9 +124,9 @@ document.getElementById('playvid').addEventListener('click',()=>{
 
 btnCallPr.onclick = function mediacall(){
         var othId = document.getElementById("peerid").value;
-        //var userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
-        if(navigator.getUserMedia){
-            navigator.getUserMedia(
+        var userMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+        if(userMedia){
+            userMedia.call(navigator,
                 {
                     video:true,
                     audio:false
